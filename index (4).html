@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omnexyn: where ideas, knowledge and solutions connect</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='9' cy='22' r='4' fill='%233446e0'/%3E%3Ccircle cx='23' cy='9' r='4' fill='%2312b3a0'/%3E%3Cpath d='M9 22L23 9' stroke='%233446e0' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#F5F7FA;--ink:#101828;--mut:#5B667A;--card:#fff;--line:#E3E8EF;--acc:#3446E0;--acc2:#12A594;--on:#fff;--r:14px}
+:root[data-theme=dark]{--bg:#0E1320;--ink:#EAF0FF;--mut:#9AA6C2;--card:#161D2E;--line:#263049;--acc:#8C9CFF;--acc2:#3DD6C0;--on:#0E1320}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style",serif;line-height:1.15;margin:0 0 .5em;font-weight:600}
+h1{font-size:clamp(2.2rem,6vw,4.2rem);letter-spacing:-.02em}h2{font-size:clamp(1.5rem,3.5vw,2.2rem)}h3{font-size:1.2rem}
+p{margin:0 0 1em}a{color:var(--acc)}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{max-width:1120px;margin:auto;padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font:600 1.25rem Georgia,serif;color:var(--ink);text-decoration:none}
+nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
+nav a{padding:7px 13px;border-radius:99px;color:var(--mut);text-decoration:none;white-space:nowrap}
+nav a.on,nav a:hover{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.tools{display:flex;gap:8px;align-items:center}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{background:var(--acc);color:var(--on);border:0;border-radius:99px;padding:9px 18px;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sm{padding:5px 12px;font-size:.88rem}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+select,input,textarea{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+.tools select{width:auto;padding:6px 8px}
+main{max-width:1120px;margin:auto;padding:0 20px 80px}
+.view{display:none;padding-top:36px}.view.on{display:block}
+.hero{position:relative;min-height:70vh;display:grid;align-items:center;overflow:hidden;border-radius:28px;margin-top:20px;border:1px solid var(--line);background:var(--card)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero>div{position:relative;padding:clamp(24px,6vw,70px);max-width:720px}
+.hero p{font-size:1.15rem;color:var(--mut)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.pillars .card:nth-child(1){border-top:4px solid var(--acc)}.pillars .card:nth-child(2){border-top:4px solid var(--acc2)}.pillars .card:nth-child(3){border-top:4px solid #E0A526}
+.stats{display:flex;gap:28px;flex-wrap:wrap;margin:36px 0}.stats b{font:600 2rem Georgia,serif;display:block}.stats span{color:var(--mut)}
+.chip{display:inline-block;font-size:.8rem;padding:2px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--line);color:var(--mut);margin:0 6px 6px 0}
+.chip.st{color:var(--acc);border-color:var(--acc)}
+.meta{color:var(--mut);font-size:.88rem}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.filters select{width:auto}
+label{display:block;font-weight:600;font-size:.92rem;margin:12px 0 4px}
+.coach{border-left:4px solid var(--acc2);background:var(--bg);padding:12px 16px;border-radius:10px;margin-top:14px}
+.coach li{margin:4px 0}
+.score{height:8px;border-radius:9px;background:var(--line);overflow:hidden}.score i{display:block;height:100%;background:var(--acc2)}
+#graph{width:100%;height:min(68vh,560px);background:var(--card);border:1px solid var(--line);border-radius:var(--r);touch-action:none;display:block}
+.legend span{margin-right:16px}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.steps{display:flex;gap:8px;margin-bottom:18px}.steps i{flex:1;height:6px;border-radius:9px;background:var(--line)}.steps i.on{background:var(--acc)}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer;font-weight:400}
+.opt input{width:auto;margin-top:5px}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);width:min(92vw,400px);padding:24px}
+dialog::backdrop{background:#0008}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;z-index:50}
+.plan h4{margin:18px 0 4px;font-size:1rem}.plan ul,.plan ol{margin:0 0 4px;padding-left:20px}.plan li{margin:3px 0}.warn{border-left:4px solid #D92D20;background:var(--bg);padding:12px 16px;border-radius:10px;margin:12px 0}
+details summary{cursor:pointer;color:var(--acc);margin-top:8px}
+.cm{border-top:1px solid var(--line);padding:8px 0;font-size:.93rem}
+@media(max-width:640px){.bar{padding:8px 14px}nav{order:3;width:100%;margin:0}.tools{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a class="logo" href="#home"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M9 22L23 9M9 22L9 7M23 9L25 25M9 22L25 25" stroke="currentColor" stroke-width="1.5" opacity=".4"/><circle cx="9" cy="22" r="4.5" fill="#3446E0"/><circle cx="23" cy="9" r="4.5" fill="#12A594"/><circle cx="9" cy="7" r="3" fill="#E0A526"/><circle cx="25" cy="25" r="3" fill="#3446E0"/></svg>Omnexyn</a>
+<nav id="nav" aria-label="Main"><a href="#home" data-i="home">Home</a><a href="#ideas" data-i="ideas">Ideas</a><a href="#map" data-i="map">Map</a><a href="#solve" data-i="solve">Solve</a></nav>
+<div class="tools">
+<select id="lang" aria-label="Language"><option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option></select>
+<button class="btn ghost sm" id="theme" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 0 0 13z" fill="currentColor"/></svg></button>
+<button class="btn sm" id="auth" data-i="signin">Sign in</button>
+</div></div></header>
+
+<main>
+<section class="view" id="v-home">
+<div class="hero"><canvas id="hero"></canvas><div>
+<h1 data-i="heroT">Where human ideas become real innovations.</h1>
+<p data-i="heroS">Publish an idea, connect it to the knowledge around it, and solve problems together with AI, experts and builders.</p>
+<div class="row"><a class="btn" href="#ideas" data-i="ctaA" style="text-decoration:none">Share an idea</a><a class="btn ghost" href="#solve" data-i="ctaB" style="text-decoration:none">Solve a problem</a></div>
+</div></div>
+<div class="stats" id="stats"></div>
+<div class="grid pillars">
+<div class="card"><h3 data-i="p1t">Ideas that grow</h3><p data-i="p1d">People publish ideas. AI helps sharpen them, experts add knowledge, and teams form around the strongest ones.</p><a href="#ideas" data-i="open">Open</a></div>
+<div class="card"><h3 data-i="p2t">Knowledge that connects</h3><p data-i="p2d">See how ideas, topics and people link together, and find collaborators and directions nobody mapped before.</p><a href="#map" data-i="open">Open</a></div>
+<div class="card"><h3 data-i="p3t">Problems that get solved</h3><p data-i="p3d">Describe a challenge. Get a step-by-step plan and the right mix of AI, experts, developers and researchers.</p><a href="#solve" data-i="open">Open</a></div>
+</div>
+</section>
+
+<section class="view" id="v-ideas">
+<h2 data-i="ideas">Ideas</h2>
+<div class="card" id="pub">
+<h3 data-i="newIdea">Publish an idea</h3>
+<label for="i-title" data-i="title">Title</label><input id="i-title" maxlength="90">
+<label for="i-desc" data-i="desc">Describe the problem and your idea</label><textarea id="i-desc" rows="4"></textarea>
+<div class="grid"><div><label for="i-cat" data-i="cat">Category</label><select id="i-cat"></select></div>
+<div><label for="i-tags" data-i="tags">Tags (comma separated)</label><input id="i-tags" placeholder="water, sensors, low-cost"></div></div>
+<div class="row" style="margin-top:14px"><button class="btn ghost" id="coachBtn" data-i="coach">Improve with AI coach</button><button class="btn" id="pubBtn" data-i="publish">Publish</button></div>
+<div id="coachOut"></div>
+</div>
+<div class="filters"><select id="f-cat" aria-label="Category"></select><select id="f-st" aria-label="Stage"></select><select id="f-sort" aria-label="Sort"></select></div>
+<div class="grid" id="feed"></div>
+</section>
+
+<section class="view" id="v-map">
+<h2 data-i="map">Knowledge map</h2>
+<p class="meta" data-i="mapD">Drag nodes. Tap one to see how it connects.</p>
+<canvas id="graph"></canvas>
+<p class="legend meta"><span><i style="background:#3446E0"></i><b data-i="ideas">Ideas</b></span><span><i style="background:#12A594"></i><b data-i="topics">Topics</b></span><span><i style="background:#E0A526"></i><b data-i="people">People</b></span></p>
+<div class="card" id="nodeInfo"></div><div class="card" id="disc" style="margin-top:16px"></div>
+</section>
+
+<section class="view" id="v-solve">
+<h2 data-i="solve">Solve a problem</h2>
+<div class="card" id="wiz" style="max-width:720px"></div>
+<h3 style="margin-top:36px" data-i="myPlans">My plans</h3><div class="grid" id="plans"></div>
+</section>
+</main>
+
+<dialog id="dlg"><form method="dialog" id="authForm" style="margin:0">
+<h3 id="dT">Sign in</h3>
+<div id="nameRow"><label for="a-name" data-i="name">Name</label><input id="a-name" autocomplete="name"></div>
+<label for="a-mail">Email</label><input id="a-mail" type="email" autocomplete="email" required>
+<label for="a-pw" data-i="pw">Password (6+ characters)</label><input id="a-pw" type="password" minlength="6" autocomplete="current-password" required>
+<p class="meta" id="aErr" role="alert" style="color:#D92D20;margin-top:8px"></p>
+<div class="row"><button class="btn" id="aGo" value="x">Continue</button><button class="btn ghost" type="button" id="aSwap"></button><button class="btn ghost" type="button" id="aX" aria-label="Close">✕</button></div>
+</form></dialog>
+
+<script>
+const K='omnexyn.v1',CATS=['health','edu','climate','agri','biz','tech'],STG=['idea','dev','team','prog','done'];
+const T={
+en:{sortNew:'Newest first',sortTop:'Most supported',w3:'Who is affected? (optional)',w4:'What resources do you have?',b_none:'No budget. Free tools and volunteers only',b_small:'A small budget',b_funded:'Funding for a paid pilot',home:'Home',ideas:'Ideas',map:'Map',solve:'Solve',signin:'Sign in',signout:'Sign out',heroT:'Where human ideas become real innovations.',heroS:'Publish an idea, connect it to the knowledge around it, and solve problems together with AI, experts and builders.',ctaA:'Share an idea',ctaB:'Solve a problem',p1t:'Ideas that grow',p1d:'People publish ideas. AI helps sharpen them, experts add knowledge, and teams form around the strongest ones.',p2t:'Knowledge that connects',p2d:'See how ideas, topics and people link together, and find collaborators and directions nobody mapped before.',p3t:'Problems that get solved',p3d:'Describe a challenge. Get a step-by-step plan and the right mix of AI, experts, developers and researchers.',open:'Open',newIdea:'Publish an idea',title:'Title',desc:'Describe the problem and your idea',cat:'Category',tags:'Tags (comma separated)',coach:'Improve with AI coach',publish:'Publish',allCat:'All categories',allSt:'All stages',join:'Join team',leave:'Leave team',comments:'Comments',addC:'Add comment',mapD:'Drag nodes. Tap one to see how it connects.',topics:'Topics',people:'People',myPlans:'My plans',name:'Name',pw:'Password (6+ characters)',login:'Sign in',signup:'Create account',noAcc:'Create account',haveAcc:'I have an account',need:'Sign in to do this.',saved:'Saved',pubd:'Published',fill:'Add a title and a description first.',empty:'No ideas match yet. Publish the first one.',s1:'Describe your challenge',s2:'Choose the help you need',s3:'Your plan',next:'Next',back:'Back',savePlan:'Save plan',w1:'What problem do you want to solve?',w2:'Who should help? Pick any.',members:'members',stats:['Ideas','Contributors','Team members','Plans'],h_ai:'AI assistant',h_exp:'Human experts',h_dev:'Developers',h_biz:'Businesses and funders',h_res:'Researchers',c:{health:'Health',edu:'Education',climate:'Climate',agri:'Agriculture',biz:'Business and jobs',tech:'Technology and AI'},st:{idea:'Idea',dev:'Developing',team:'Team forming',prog:'In progress',done:'Launched'}},
+fr:{home:'Accueil',ideas:'Idées',map:'Carte',solve:'Résoudre',signin:'Connexion',signout:'Déconnexion',heroT:'Là où les idées humaines deviennent de vraies innovations.',heroS:'Publiez une idée, reliez-la aux connaissances existantes et résolvez des problèmes avec l’IA, des experts et des bâtisseurs.',ctaA:'Partager une idée',ctaB:'Résoudre un problème',p1t:'Des idées qui grandissent',p1d:'Chacun publie ses idées. L’IA les affine, les experts les enrichissent et des équipes se forment autour des meilleures.',p2t:'Un savoir connecté',p2d:'Voyez comment idées, sujets et personnes se relient, et trouvez de nouveaux partenaires et pistes.',p3t:'Des problèmes résolus',p3d:'Décrivez un défi. Recevez un plan par étapes et le bon mélange d’IA, d’experts, de développeurs et de chercheurs.',open:'Ouvrir',newIdea:'Publier une idée',title:'Titre',desc:'Décrivez le problème et votre idée',cat:'Catégorie',tags:'Mots-clés (séparés par des virgules)',coach:'Améliorer avec le coach IA',publish:'Publier',allCat:'Toutes les catégories',allSt:'Toutes les étapes',join:'Rejoindre l’équipe',leave:'Quitter l’équipe',comments:'Commentaires',addC:'Commenter',mapD:'Déplacez les nœuds. Touchez-en un pour voir ses liens.',topics:'Sujets',people:'Personnes',myPlans:'Mes plans',name:'Nom',pw:'Mot de passe (6 caractères min.)',login:'Se connecter',signup:'Créer un compte',noAcc:'Créer un compte',haveAcc:'J’ai déjà un compte',need:'Connectez-vous pour continuer.',saved:'Enregistré',pubd:'Publié',fill:'Ajoutez d’abord un titre et une description.',empty:'Aucune idée pour l’instant. Publiez la première.',s1:'Décrivez votre défi',s2:'Choisissez l’aide voulue',s3:'Votre plan',next:'Suivant',back:'Retour',savePlan:'Enregistrer le plan',w1:'Quel problème voulez-vous résoudre ?',w2:'Qui doit aider ? Choisissez.',members:'membres',stats:['Idées','Contributeurs','Membres d’équipe','Plans'],h_ai:'Assistant IA',h_exp:'Experts humains',h_dev:'Développeurs',h_biz:'Entreprises et financeurs',h_res:'Chercheurs',c:{health:'Santé',edu:'Éducation',climate:'Climat',agri:'Agriculture',biz:'Emploi et affaires',tech:'Technologie et IA'},st:{idea:'Idée',dev:'En développement',team:'Équipe en formation',prog:'En cours',done:'Lancé'}},
+es:{home:'Inicio',ideas:'Ideas',map:'Mapa',solve:'Resolver',signin:'Entrar',signout:'Salir',heroT:'Donde las ideas humanas se vuelven innovaciones reales.',heroS:'Publica una idea, conéctala con el conocimiento que la rodea y resuelve problemas junto con IA, expertos y creadores.',ctaA:'Compartir una idea',ctaB:'Resolver un problema',p1t:'Ideas que crecen',p1d:'La gente publica ideas. La IA las mejora, los expertos aportan y se forman equipos en torno a las más sólidas.',p2t:'Conocimiento conectado',p2d:'Mira cómo se unen ideas, temas y personas, y encuentra colaboradores y direcciones nuevas.',p3t:'Problemas resueltos',p3d:'Describe un reto. Recibe un plan paso a paso y la mezcla justa de IA, expertos, desarrolladores e investigadores.',open:'Abrir',newIdea:'Publicar una idea',title:'Título',desc:'Describe el problema y tu idea',cat:'Categoría',tags:'Etiquetas (separadas por comas)',coach:'Mejorar con el coach de IA',publish:'Publicar',allCat:'Todas las categorías',allSt:'Todas las etapas',join:'Unirme al equipo',leave:'Salir del equipo',comments:'Comentarios',addC:'Comentar',mapD:'Arrastra los nodos. Toca uno para ver sus conexiones.',topics:'Temas',people:'Personas',myPlans:'Mis planes',name:'Nombre',pw:'Contraseña (mín. 6 caracteres)',login:'Entrar',signup:'Crear cuenta',noAcc:'Crear cuenta',haveAcc:'Ya tengo cuenta',need:'Inicia sesión para hacerlo.',saved:'Guardado',pubd:'Publicado',fill:'Añade primero un título y una descripción.',empty:'Aún no hay ideas. Publica la primera.',s1:'Describe tu reto',s2:'Elige la ayuda que necesitas',s3:'Tu plan',next:'Siguiente',back:'Atrás',savePlan:'Guardar plan',w1:'¿Qué problema quieres resolver?',w2:'¿Quién debe ayudar? Elige.',members:'miembros',stats:['Ideas','Colaboradores','Miembros de equipo','Planes'],h_ai:'Asistente de IA',h_exp:'Expertos humanos',h_dev:'Desarrolladores',h_biz:'Empresas y financiadores',h_res:'Investigadores',c:{health:'Salud',edu:'Educación',climate:'Clima',agri:'Agricultura',biz:'Empleo y negocios',tech:'Tecnología e IA'},st:{idea:'Idea',dev:'En desarrollo',team:'Formando equipo',prog:'En curso',done:'Lanzado'}}};
+let lang=localStorage.getItem('omx.lang')||'en',db,wz=newWz();function newWz(){return{s:1,text:'',who:'',budget:'none',cat:'health',help:['ai'],touched:0}}
+const t=k=>(T[lang][k]??T.en[k]??k),$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function load(){try{db=JSON.parse(localStorage.getItem(K))}catch(_){}
+ if(!db||!db.ideas)db={users:[],me:null,plans:[],ideas:[
+ {id:1,title:'Pocket water-quality tester',desc:'Many families cannot tell if their well water is safe because lab tests are slow and costly. A low-cost sensor strip read by a phone camera could give an answer in a minute and map risky wells.',cat:'health',tags:['water','sensors','mobile'],by:'Ama',stage:'dev',votes:['x1','x2','x3'],team:[],cm:[{u:'Luca',x:'A chemist in my lab could help calibrate the strips.'}]},
+ {id:2,title:'Offline lessons for patchy internet',desc:'Students with unreliable internet lose weeks of learning. Packaged lessons that sync when a signal appears, with quizzes that run on cheap phones, would keep them on track.',cat:'edu',tags:['offline','mobile','learning'],by:'Mei',stage:'team',votes:['x1','x2'],team:[],cm:[]},
+ {id:3,title:'Crop-disease photo diagnosis',desc:'Smallholder farmers lose harvests to diseases they spot too late. A photo of a leaf could return a likely diagnosis and a nearby treatment option, even without internet.',cat:'agri',tags:['sensors','mobile','ai'],by:'Kofi',stage:'idea',votes:['x1'],team:[],cm:[]},
+ {id:4,title:'Neighbourhood heat map',desc:'Cities do not know which streets overheat. Residents sharing simple temperature readings could reveal hot spots and guide where to plant trees first.',cat:'climate',tags:['data','community','sensors'],by:'Luca',stage:'prog',votes:['x1','x2','x3','x4'],team:[],cm:[]}]};
+ db.ideas.forEach(i=>{if(!i.team)i.team=[]})}
+const save=()=>localStorage.setItem(K,JSON.stringify(db));
+const toast=m=>{const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),2200)};
+const me=()=>db.users.find(u=>u.id===db.me);
+const sha=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+
+/* ---------- i18n + shell ---------- */
+function applyLang(){document.documentElement.lang=lang;$('#lang').value=lang;
+ $$('[data-i]').forEach(n=>{const v=t(n.dataset.i);if(typeof v==='string')n.textContent=v});
+ $('#auth').textContent=me()?t('signout')+' ('+me().name+')':t('signin');
+ $('#i-cat').innerHTML=CATS.map(c=>`<option value="${c}">${t('c')[c]}</option>`).join('');
+ const fc=$('#f-cat'),fs=$('#f-st'),a=fc.value,b=fs.value;
+ fc.innerHTML=`<option value="">${t('allCat')}</option>`+CATS.map(c=>`<option value="${c}">${t('c')[c]}</option>`).join('');
+ fs.innerHTML=`<option value="">${t('allSt')}</option>`+STG.map(s=>`<option value="${s}">${t('st')[s]}</option>`).join('');
+ fc.value=a;fs.value=b;const so=$('#f-sort'),sv=so.value||'new';so.innerHTML=`<option value="new">${t('sortNew')}</option><option value="top">${t('sortTop')}</option>`;so.value=sv;route()}
+function route(){const v=(location.hash||'#home').slice(1);const id=['home','ideas','map','solve'].includes(v)?v:'home';
+ $$('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+id));
+ $$('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+ if(id==='home')stats();if(id==='ideas')feed();if(id==='map')startGraph();if(id==='solve'){wizard();plans()}
+ if(id!=='map')stopGraph();window.scrollTo(0,0)}
+function stats(){const p=new Set(db.ideas.map(i=>i.by).concat(db.users.map(u=>u.name)));
+ const n=[db.ideas.length,p.size,db.ideas.reduce((a,i)=>a+i.team.length,0),db.plans.length];
+ $('#stats').innerHTML=n.map((x,i)=>`<div><b>${x}</b><span>${t('stats')[i]}</span></div>`).join('')}
+
+/* ---------- ideas ---------- */
+function feed(){const c=$('#f-cat').value,s=$('#f-st').value,u=me();
+ const L=db.ideas.filter(i=>(!c||i.cat===c)&&(!s||i.stage===s)).sort((a,b)=>$('#f-sort').value==='top'?b.votes.length-a.votes.length:b.id-a.id);
+ $('#feed').innerHTML=L.length?L.map(i=>{const mine=u&&i.by===u.name,j=u&&i.team.includes(u.id),v=u&&i.votes.includes(u.id);
+ return `<article class="card" data-id="${i.id}"><span class="chip st">${t('st')[i.stage]}</span><span class="chip">${t('c')[i.cat]}</span>
+ <h3>${e(i.title)}</h3><p>${e(i.desc)}</p><div>${i.tags.map(g=>`<span class="chip">#${e(g)}</span>`).join('')}</div>
+ <p class="meta">${e(i.by)} · ${i.team.length} ${t('members')}</p>
+ <div class="row"><button class="btn ghost sm" data-a="vote" aria-pressed="${!!v}">${v?'♥':'♡'} ${i.votes.length}</button>
+ <button class="btn sm" data-a="join">${j?t('leave'):t('join')}</button>
+ ${mine?`<select data-a="stage" style="width:auto" aria-label="Stage">${STG.map(g=>`<option value="${g}" ${g===i.stage?'selected':''}>${t('st')[g]}</option>`).join('')}</select>`:''}</div>
+ <details><summary>${t('comments')} (${i.cm.length})</summary>${i.cm.map(m=>`<div class="cm"><b>${e(m.u)}</b>: ${e(m.x)}</div>`).join('')}
+ <div class="row" style="margin-top:8px;flex-wrap:nowrap"><input aria-label="${t('addC')}" maxlength="240"><button class="btn sm" data-a="comment">${t('addC')}</button></div></details></article>`}).join(''):`<p class="meta">${t('empty')}</p>`}
+function need(){if(me())return true;toast(t('need'));openAuth();return false}
+$('#feed').addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b||b.tagName==='SELECT')return;if(!need())return;
+ const i=db.ideas.find(x=>x.id==b.closest('article').dataset.id),u=me(),a=b.dataset.a,tg=(arr)=>{const k=arr.indexOf(u.id);k<0?arr.push(u.id):arr.splice(k,1)};
+ if(a==='vote')tg(i.votes);if(a==='join')tg(i.team);
+ if(a==='comment'){const inp=b.previousElementSibling;if(!inp.value.trim())return;i.cm.push({u:u.name,x:inp.value.trim()})}
+ save();const open=b.closest('details')?.open;feed();if(a==='comment')$(`[data-id="${i.id}"] details`).open=true});
+$('#feed').addEventListener('change',ev=>{if(ev.target.dataset.a!=='stage')return;db.ideas.find(x=>x.id==ev.target.closest('article').dataset.id).stage=ev.target.value;save();feed()});
+$('#f-cat').onchange=$('#f-st').onchange=$('#f-sort').onchange=feed;
+
+/* rule-based AI coach (runs fully offline) */
+const ROLES={health:['clinician','public-health researcher','mobile developer'],edu:['teacher','learning designer','mobile developer'],climate:['climate scientist','data analyst','community organiser'],agri:['agronomist','field-extension worker','ML engineer'],biz:['business mentor','finance advisor','marketer'],tech:['software engineer','security reviewer','UX designer']};
+function coach(title,desc,cat,tags){const w=desc.trim().split(/\s+/).filter(Boolean).length,s=desc.toLowerCase(),tips=[];let sc=0;
+ const chk=(ok,pts,tip)=>{ok?sc+=pts:tips.push(tip)};
+ chk(w>=35,20,'Add more detail: aim for at least 35 words covering the problem, the idea and the result.');
+ chk(/problem|struggle|cannot|lose|lack|need|too (slow|costly|hard)|difficult/.test(s),20,'State the problem clearly: who is affected and what goes wrong today?');
+ chk(/\b(for|farmers|students|families|patients|residents|users|people|teachers|small)\b/.test(s),15,'Name who benefits, such as a specific group of people.');
+ chk(/\d/.test(s)||/minute|day|week|cost|cheap|free|percent|%/.test(s),15,'Add something measurable, like time saved, cost, or number of people reached.');
+ chk(tags.length>=3,10,'Add at least 3 tags so related ideas and experts can find you.');
+ chk(title.length>=12,5,'Make the title more specific (12+ characters).');
+ chk(/test|pilot|prototype|trial|first/.test(s),15,'Describe a small first test or pilot you could run in a month.');
+ const rel=db.ideas.filter(i=>i.cat===cat||i.tags.some(g=>tags.includes(g))).slice(0,3);
+ return {sc:Math.min(100,sc),tips,roles:ROLES[cat],rel}}
+$('#coachBtn').onclick=()=>{const ti=$('#i-title').value.trim(),de=$('#i-desc').value.trim();if(!ti||!de)return toast(t('fill'));
+ const tg=$('#i-tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),r=coach(ti,de,$('#i-cat').value,tg);
+ $('#coachOut').innerHTML=`<div class="coach"><b>Idea strength: ${r.sc}/100</b><div class="score" role="img" aria-label="${r.sc}%"><i style="width:${r.sc}%"></i></div>
+ ${r.tips.length?'<ul>'+r.tips.map(x=>`<li>${e(x)}</li>`).join('')+'</ul>':'<p>Strong and clear. Ready to publish.</p>'}
+ <p><b>Experts to invite:</b> ${r.roles.join(', ')}</p>${r.rel.length?`<p><b>Related ideas:</b> ${r.rel.map(i=>e(i.title)).join('; ')}</p>`:''}</div>`};
+$('#pubBtn').onclick=()=>{if(!need())return;const ti=$('#i-title').value.trim(),de=$('#i-desc').value.trim();if(!ti||!de)return toast(t('fill'));
+ db.ideas.unshift({id:Date.now(),title:ti,desc:de,cat:$('#i-cat').value,tags:$('#i-tags').value.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean).slice(0,6),by:me().name,stage:'idea',votes:[],team:[],cm:[]});
+ save();['#i-title','#i-desc','#i-tags'].forEach(s=>$(s).value='');$('#coachOut').innerHTML='';feed();toast(t('pubd'))};
+
+/* ---------- Omnify wizard ---------- */
+const HELP=['ai','exp','dev','biz','res'],ACT={ai:'Use the AI assistant to break the problem into parts, list your assumptions and draft a one-page brief for the first prototype.',exp:'Invite {r} to review the problem and confirm what is realistic.',dev:'Ask developers to build the smallest working prototype in two weeks.',biz:'Talk to businesses or funders about who would pay for this or support it.',res:'Ask researchers for evidence on similar attempts and what failed before.'};
+const KW={health:/health|disease|clinic|patient|medic|vaccin|water|sanit|nutrition|mental|hospital/,edu:/school|student|teach|learn|educat|class|exam|literacy|tutor/,climate:/climate|flood|heat|pollut|waste|carbon|forest|recycl|emission|drought|plastic/,agri:/farm|crop|harvest|soil|livestock|irrigat|seed|fertili|pest/,biz:/job|income|business|loan|market|sell|customer|startup|unemploy|money|shop/,tech:/software|\bapp\b|data|\bai\b|algorithm|website|security|code|internet|network/};
+const PB={
+health:{why:['People live far from clinics or trained staff.','Problems are found late, when they cost more to treat.','Tests, travel and medicines are costly.'],how:['Start with community health workers and simple screening before building any hardware.','Make the tool work offline and on basic phones.','Partner with a clinic or health authority before any pilot.'],res:['World Health Organization (who.int) guidelines and toolkits','OpenMRS, open-source medical records software','Your local ministry of health or health service, for approvals'],kpi:['People screened or reached','Time from first symptom to care','Cost per person served'],risk:'Health tools can cause harm if they are wrong. Have a licensed clinician and the local regulator review it before real use. This is not medical advice.'},
+edu:{why:['Learners lack books, teachers or steady internet.','Lessons do not match the level or language of the learner.','There is no quick feedback on what a student has understood.'],how:['Teach in the learners’ own language and level.','Design offline-first so lessons work without a signal.','Include a short quiz after each lesson so progress is visible.'],res:['Kolibri by Learning Equality, offline learning platform','Khan Academy free lessons','Kiwix, offline copies of Wikipedia and other content','UNESCO education resources'],kpi:['Learning gain: quiz score before vs after','Weekly active learners','Completion rate'],risk:'Protect children’s data and get permission from schools and guardians before any pilot.'},
+climate:{why:['Local data is missing, so decisions are guesses.','The people most affected have little say or funding.','Solutions exist but are not adapted to local conditions.'],how:['Gather simple local measurements first and make them public.','Involve residents from the start so the solution is used.','Pick one measurable target, such as degrees cooler or kilograms of waste kept out of landfill.'],res:['OpenStreetMap for local mapping','Global Forest Watch for forest and land data','NASA and Copernicus open climate data','Your local environment agency or municipality'],kpi:['Measured change (temperature, waste, emissions)','Households or streets involved','Cost per unit of impact'],risk:'Check local rules before changing land, water or waste practices.'},
+agri:{why:['Problems are spotted too late to save the harvest.','Farmers lack quick access to advice, quality inputs or markets.','Weather is less predictable than before.'],how:['Work with local extension officers and a few farmers for a full season.','Compare results with a similar plot that does not use your idea.','Make advice available in the local language and without internet.'],res:['FAO (fao.org) guides and datasets','CGIAR research centres','PlantVillage, crop disease tools','Local agricultural extension service'],kpi:['Yield change versus comparison plots','Farmers using the advice','Income or loss avoided per farmer'],risk:'Chemical and seed advice must follow local regulations and expert guidance.'},
+biz:{why:['People cannot reach customers, credit or reliable work.','Costs are high and cash flow is uneven.','Skills and demand do not match.'],how:['Talk to 10 likely customers before building anything.','Test willingness to pay with a pre-order or small paid trial.','Keep the first version to one product for one type of customer.'],res:['Local small business support office or chamber of commerce','Kiva, microloans','Startup School (startupschool.org), free founder lessons','Open Collective for transparent community funding'],kpi:['Paying customers','Monthly income and costs','Repeat purchases'],risk:'Check licensing, tax and consumer rules, and talk to a qualified advisor before taking money from others. This is not financial or legal advice.'},
+tech:{why:['Existing tools are too complex, costly or not built for the people who need them.','Data is scattered or locked in separate systems.','Security and privacy are afterthoughts.'],how:['Build the smallest version that solves one job end to end.','Use open-source parts where you can.','Collect only the data you need and get clear consent.'],res:['GitHub and Open Source Guides (opensource.guide)','OWASP, web security basics','Hugging Face, open models and datasets','Local developer communities and meetups'],kpi:['Task completed without help','Weekly active users','Bugs found per week and time to fix'],risk:'Handle personal data lawfully and securely. Run a basic security review before launch.'}};
+const SUB=[[/water|sanit|well/,'Test water at the source with simple kits, and compare results with WHO drinking-water guidelines.'],[/internet|offline|connect|signal/,'Store data on the device and sync when a connection appears.'],[/crop|farm|harvest|soil/,'Photograph and record fields each week so you have evidence of what changed.'],[/job|income|loan|sell|market/,'Write down what each customer pays for today, and what they would pay for your solution.'],[/solar|energy|power|electric/,'Measure the real daily power need first, then size the system to it.'],[/school|student|teach|learn/,'Pilot with one class for four weeks and compare quiz scores before and after.'],[/privacy|security|personal data/,'Ask for consent, collect the minimum, and store data encrypted.']];
+const BUD={none:'With no budget: use free tools such as paper prototypes, forms, messaging apps, open-source software and volunteer testers.',small:'With a small budget: use no-code tools and borrowed devices, and pay only for what the test cannot work without.',funded:'With funding: define milestones, pay for a short pilot, and agree scope and ownership in writing.'};
+const URG=/suicid|self.harm|kill myself|overdose|bleeding|poison|abuse|violence|emergency|traffick|assault/i;
+function wizard(){const w=wz,el=$('#wiz'),bar=`<div class="steps">${[1,2,3].map(n=>`<i class="${n<=w.s?'on':''}"></i>`).join('')}</div><h3>${t('s'+w.s)}</h3>`;
+ if(w.s===1)el.innerHTML=bar+`<label for="w-t">${t('w1')}</label><textarea id="w-t" rows="5" placeholder="What happens, how often, and what does it cost people?">${e(w.text)}</textarea><label for="w-who">${t('w3')}</label><input id="w-who" value="${e(w.who)}" maxlength="120"><div class="grid"><div><label for="w-c">${t('cat')}</label><select id="w-c">${CATS.map(c=>`<option value="${c}" ${c===w.cat?'selected':''}>${t('c')[c]}</option>`).join('')}</select></div><div><label for="w-b">${t('w4')}</label><select id="w-b">${['none','small','funded'].map(k=>`<option value="${k}" ${k===w.budget?'selected':''}>${t('b_'+k)}</option>`).join('')}</select></div></div><div class="row" style="margin-top:16px"><button class="btn" id="wn">${t('next')}</button></div>`;
+ if(w.s===1)$('#w-c').onchange=()=>w.touched=1;
+ if(w.s===2)el.innerHTML=bar+`<p>${t('w2')}</p>`+HELP.map(h=>`<label class="opt"><input type="checkbox" value="${h}" ${w.help.includes(h)?'checked':''}><span>${t('h_'+h)}</span></label>`).join('')+`<div class="row"><button class="btn ghost" id="wb">${t('back')}</button><button class="btn" id="wn">${t('next')}</button></div>`;
+ if(w.s===3){const p=mkPlan();el.innerHTML=bar+`<label for="w-c2">${t('cat')}</label><select id="w-c2" style="margin-bottom:8px">${CATS.map(c=>`<option value="${c}" ${c===w.cat?'selected':''}>${t('c')[c]}</option>`).join('')}</select><div class="plan">${renderPlan(p)}</div><div class="row" style="margin-top:16px"><button class="btn ghost" id="wb">${t('back')}</button><button class="btn" id="ws">${t('savePlan')}</button><button class="btn ghost" id="wi">Share as an idea</button></div>`;
+ $('#w-c2').onchange=ev=>{w.cat=ev.target.value;w.touched=1;wizard()};
+ $('#ws').onclick=()=>{if(!need())return;delete p.rel;db.plans.unshift({id:Date.now(),by:me().id,...p});save();wz=newWz();wizard();plans();toast(t('saved'))};
+ $('#wi').onclick=()=>{location.hash='#ideas';setTimeout(()=>{$('#i-title').value=w.text.slice(0,80);$('#i-desc').value=w.text;$('#i-cat').value=w.cat;$('#i-title').focus()},50)}}
+ const n=$('#wn'),b=$('#wb');
+ if(n)n.onclick=()=>{if(w.s===1){w.text=$('#w-t').value.trim();w.who=$('#w-who').value.trim();w.cat=$('#w-c').value;w.budget=$('#w-b').value;if(!w.text)return toast(t('fill'));
+   if(!w.touched){const sc=Object.entries(KW).map(([c,re])=>[c,(w.text.toLowerCase().match(new RegExp(re.source,'g'))||[]).length]).sort((a,b)=>b[1]-a[1]);if(sc[0][1]>0)w.cat=sc[0][0]}}
+  if(w.s===2)w.help=$$('#wiz input:checked').map(x=>x.value);w.s++;wizard()};
+ if(b)b.onclick=()=>{if(w.s===2)w.help=$$('#wiz input:checked').map(x=>x.value);w.s--;wizard()}}
+function mkPlan(){const w=wz,pb=PB[w.cat],q=(w.text+' '+w.who).toLowerCase(),words=q.split(/\W+/).filter(x=>x.length>4),r=ROLES[w.cat].join(', '),qs=[];
+ if(w.text.split(/\s+/).length<20)qs.push('Can you describe the problem in more detail: what happens, how often, and what does it cost people?');
+ if(!w.who)qs.push('Exactly who is affected, and have you spoken to any of them?');
+ qs.push('What has already been tried here, and why did it fall short?');
+ return{cat:w.cat,text:w.text,who:w.who,urgent:URG.test(w.text),qs,why:pb.why,
+  how:[...SUB.filter(x=>x[0].test(q)).map(x=>x[1]).slice(0,3),...pb.how],
+  first7:['Write the problem as one sentence that names who it affects.','Talk to at least 5 affected people. Record what they say, not what you expect.','Search for existing solutions so you do not rebuild what already works.','Choose the smallest test that would show whether your idea works.'],
+  pilot:[...w.help.map(h=>ACT[h].replace('{r}',r)),BUD[w.budget],'Run the test with 5 to 10 real people and compare results with your success measures.','Decide whether to improve, scale or stop, and share what you learned.'],
+  res:pb.res,kpi:pb.kpi,risk:pb.risk,rel:db.ideas.filter(i=>i.cat===w.cat||words.some(x=>(i.title+i.desc).toLowerCase().includes(x))).slice(0,3)}}
+function renderPlan(p){if(p.steps)return `<p>${e(p.text)}</p><ol>${p.steps.map(x=>`<li>${e(x)}</li>`).join('')}</ol>`;
+ const L=a=>'<ul>'+a.map(x=>`<li>${e(x)}</li>`).join('')+'</ul>';
+ return (p.urgent?'<div class="warn" role="alert"><b>If someone is in immediate danger, contact your local emergency number now.</b> This tool cannot handle emergencies.</div>':'')+
+ `<span class="chip">${t('c')[p.cat]}</span><p>${e(p.text)}</p>${p.who?`<p class="meta">Affected: ${e(p.who)}</p>`:''}
+ <h4>Questions to answer first</h4>${L(p.qs)}<h4>Common root causes</h4>${L(p.why)}<h4>Approach that tends to work</h4>${L(p.how)}
+ <h4>Your first 7 days</h4><ol>${p.first7.map(x=>`<li>${e(x)}</li>`).join('')}</ol><h4>A 30-day pilot</h4><ol>${p.pilot.map(x=>`<li>${e(x)}</li>`).join('')}</ol>
+ <h4>Real resources to explore</h4>${L(p.res)}<h4>How to measure success</h4>${L(p.kpi)}<div class="warn"><b>Watch out:</b> ${e(p.risk)}</div>
+ ${p.rel&&p.rel.length?`<h4>Related ideas on Omnexyn</h4>${L(p.rel.map(i=>i.title+' (by '+i.by+')'))}`:''}`}
+function plans(){const m=db.plans.filter(p=>p.by===db.me);$('#plans').innerHTML=m.map(p=>`<div class="card plan">${renderPlan(p)}</div>`).join('')}
+
+/* ---------- auth (local, SHA-256 hashed) ---------- */
+let mode='in';
+function openAuth(){setMode('in');$('#aErr').textContent='';$('#dlg').showModal()}
+function setMode(m){mode=m;$('#dT').textContent=t(m==='in'?'login':'signup');$('#nameRow').style.display=m==='in'?'none':'block';$('#aSwap').textContent=t(m==='in'?'noAcc':'haveAcc')}
+$('#aSwap').onclick=()=>setMode(mode==='in'?'up':'in');$('#aX').onclick=()=>$('#dlg').close();
+$('#auth').onclick=()=>{if(me()){db.me=null;save();applyLang()}else openAuth()};
+$('#authForm').addEventListener('submit',async ev=>{const mail=$('#a-mail').value.trim().toLowerCase(),pw=$('#a-pw').value;ev.preventDefault();
+ if(!mail||pw.length<6)return $('#aErr').textContent='Enter a valid email and a password of 6+ characters.';
+ const h=await sha(pw+mail),u=db.users.find(x=>x.mail===mail);
+ if(mode==='up'){const nm=$('#a-name').value.trim();if(!nm)return $('#aErr').textContent='Enter your name.';
+  if(u)return $('#aErr').textContent='This email already has an account. Sign in instead.';
+  const n={id:'u'+Date.now(),name:nm,mail,h};db.users.push(n);db.me=n.id}
+ else{if(!u||u.h!==h)return $('#aErr').textContent='Email or password is incorrect.';db.me=u.id}
+ save();$('#dlg').close();applyLang()});
+
+/* ---------- theme + language ---------- */
+const th=localStorage.getItem('omx.theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+document.documentElement.dataset.theme=th;
+$('#theme').onclick=()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem('omx.theme',n)};
+$('#lang').onchange=ev=>{lang=ev.target.value;localStorage.setItem('omx.lang',lang);applyLang()};
+addEventListener('hashchange',route);
+
+/* ---------- generative hero art (original, drawn in code) ---------- */
+(function(){const cv=$('#hero'),x=cv.getContext('2d'),P=[],col=['#3446E0','#12A594','#E0A526'];let W,H,raf;
+ const rs=()=>{const d=devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;x.setTransform(d,0,0,d,0,0)};rs();addEventListener('resize',rs);
+ for(let i=0;i<46;i++)P.push({x:Math.random(),y:Math.random(),a:Math.random()*6.28,s:.00006+Math.random()*.00012,r:2+Math.random()*4,c:col[i%3]});
+ const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ function f(){if(cv.clientWidth!==W||cv.clientHeight!==H)rs();x.clearRect(0,0,W,H);P.forEach(p=>{if(!still){p.x+=Math.cos(p.a)*p.s*16;p.y+=Math.sin(p.a)*p.s*16;if(p.x<0||p.x>1)p.a=Math.PI-p.a;if(p.y<0||p.y>1)p.a=-p.a}});
+ for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot((a.x-b.x)*W,(a.y-b.y)*H);if(d<150){x.globalAlpha=(1-d/150)*.35;x.strokeStyle=a.c;x.beginPath();x.moveTo(a.x*W,a.y*H);x.lineTo(b.x*W,b.y*H);x.stroke()}}
+ x.globalAlpha=.8;P.forEach(p=>{x.fillStyle=p.c;x.beginPath();x.arc(p.x*W,p.y*H,p.r,0,6.28);x.fill()});raf=requestAnimationFrame(f)}f()})();
+
+/* ---------- Synapse graph ---------- */
+let G=null;
+function stopGraph(){if(G){cancelAnimationFrame(G.raf);G=null}}
+function disc(){const out=[],I=db.ideas;
+ for(let a=0;a<I.length;a++)for(let b=a+1;b<I.length;b++){const g=I[a].tags.filter(z=>I[b].tags.includes(z));if(g.length)out.push(`“${I[a].title}” and “${I[b].title}” share #${g[0]}${I[a].by!==I[b].by?`: ${I[a].by} and ${I[b].by} could collaborate.`:'.'}`)}
+ CATS.forEach(c=>{if(!I.some(i=>i.cat===c))out.push(`No ideas yet in ${T.en.c[c]}. This is an open opportunity.`)});
+ $('#disc').innerHTML='<h3>Discoveries</h3>'+(out.length?'<ul>'+out.slice(0,8).map(z=>`<li>${e(z)}</li>`).join('')+'</ul>':'<p class="meta">Publish more ideas to reveal connections.</p>')}
+function startGraph(){stopGraph();disc();const cv=$('#graph'),x=cv.getContext('2d'),d=devicePixelRatio||1;
+ const W=cv.clientWidth,H=cv.clientHeight;cv.width=W*d;cv.height=H*d;x.setTransform(d,0,0,d,0,0);
+ const N=[],E=[],ix={},add=(k,l,ty,r,c)=>{if(!ix[k]){ix[k]=N.length;N.push({k,l,ty,r,c,x:W/2+(Math.random()-.5)*W*.6,y:H/2+(Math.random()-.5)*H*.6,vx:0,vy:0})}return ix[k]};
+ db.ideas.forEach(i=>{const a=add('i'+i.id,i.title,'idea',11,'#3446E0');E.push([a,add('p'+i.by,i.by,'person',8,'#E0A526')]);
+  i.tags.concat(t('c')[i.cat].toLowerCase()).forEach(g=>E.push([a,add('t'+g,g,'topic',7,'#12A594')]));i.team.forEach(u=>{const n=db.users.find(z=>z.id===u);if(n)E.push([a,add('p'+n.name,n.name,'person',8,'#E0A526')])})});
+ const dark=()=>document.documentElement.dataset.theme==='dark';let drag=null,sel=null;G={raf:0};
+ function step(){for(const a of N){for(const b of N){if(a===b)continue;let dx=a.x-b.x,dy=a.y-b.y,q=dx*dx+dy*dy+.1;if(q<30000){const f=900/q;a.vx+=dx*f;a.vy+=dy*f}}a.vx+=(W/2-a.x)*.002;a.vy+=(H/2-a.y)*.002}
+  E.forEach(([i,j])=>{const a=N[i],b=N[j],dx=b.x-a.x,dy=b.y-a.y,dd=Math.hypot(dx,dy)||1,f=(dd-90)*.012;a.vx+=dx/dd*f;a.vy+=dy/dd*f;b.vx-=dx/dd*f;b.vy-=dy/dd*f});
+  N.forEach(n=>{if(n!==drag){n.x+=n.vx;n.y+=n.vy}n.vx*=.82;n.vy*=.82;n.x=Math.max(14,Math.min(W-14,n.x));n.y=Math.max(14,Math.min(H-14,n.y))})}
+ function draw(){step();x.clearRect(0,0,W,H);x.lineWidth=1;
+  E.forEach(([i,j])=>{const a=N[i],b=N[j],on=sel&&(sel===a||sel===b);x.strokeStyle=on?'#3446E0':(dark()?'#3a4668':'#C9D1E0');x.lineWidth=on?2:1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()});
+  x.font='12px system-ui';x.textAlign='center';N.forEach(n=>{x.fillStyle=n.c;x.beginPath();x.arc(n.x,n.y,n.r+(n===sel?3:0),0,6.28);x.fill();
+   x.font=(n.ty==='topic'?'11px':'12px')+' system-ui';x.fillStyle=n.ty==='topic'&&n!==sel?(dark()?'#9AA6C2':'#5B667A'):(dark()?'#EAF0FF':'#101828');x.fillText(n.l.length>26?n.l.slice(0,25)+'…':n.l,n.x,n.y-n.r-6)});G.raf=requestAnimationFrame(draw)}
+ const pos=ev=>{const r=cv.getBoundingClientRect();return[ev.clientX-r.left,ev.clientY-r.top]},hit=(px,py)=>N.find(n=>Math.hypot(n.x-px,n.y-py)<n.r+8);
+ cv.onpointerdown=ev=>{const[px,py]=pos(ev);drag=hit(px,py)||null;if(drag){sel=drag;cv.setPointerCapture(ev.pointerId);info(drag)}};
+ cv.onpointermove=ev=>{if(drag){const[px,py]=pos(ev);drag.x=px;drag.y=py}};
+ cv.onpointerup=()=>{drag=null};
+ function info(n){const nb=E.filter(([i,j])=>N[i]===n||N[j]===n).map(([i,j])=>N[i]===n?N[j]:N[i]);
+  $('#nodeInfo').innerHTML=`<b>${e(n.l)}</b> <span class="chip">${t(n.ty==='idea'?'ideas':n.ty==='topic'?'topics':'people')}</span><p class="meta">${nb.length} connections</p>${nb.map(m=>`<span class="chip">${e(m.l)}</span>`).join('')}`}
+ $('#nodeInfo').innerHTML=`<span class="meta">${N.length} nodes · ${E.length} links</span>`;
+ if(matchMedia('(prefers-reduced-motion:reduce)').matches){for(let k=0;k<300;k++)step();step();draw();cancelAnimationFrame(G.raf)}else draw()}
+
+load();applyLang();
+</script>
+</body>
+</html>
